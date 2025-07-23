@@ -1,0 +1,26 @@
+# .NET build folders
+bin/
+obj/
+
+# Entity Framework
+Migrations/
+
+# SQLite database
+*.db
+*.db-shm
+*.db-wal
+
+# VS Code settings
+.vscode/
+
+# ASP.NET secrets (por si en el futuro los usas)
+**/secrets.json
+
+# Rider/JetBrains IDEs
+.idea/
+
+# Others
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
