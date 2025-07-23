@@ -3,7 +3,6 @@ bin/
 obj/
 
 # Entity Framework
-Migrations/
 
 # SQLite database
 *.db
