@@ -43,20 +43,19 @@ namespace backend.Controllers
 
         // PUT: api/task/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTask(int id, backend.Models.Task updatedTask)
+        public async Task<IActionResult> UpdateTask(int id, [FromBody] backend.Models.Task updatedData)
         {
-            if (id != updatedTask.Id) return BadRequest();
-
             var task = await _context.Tasks.FindAsync(id);
             if (task == null) return NotFound();
 
-            task.Title = updatedTask.Title;
-            task.Description = updatedTask.Description;
-            task.IsCompleted = updatedTask.IsCompleted;
+            task.Title = updatedData.Title;
+            task.Description = updatedData.Description;
+            task.IsCompleted = updatedData.IsCompleted;
 
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
 
         //DELETE: api/task/{id}
         [HttpDelete("{id}")]
@@ -69,6 +68,6 @@ namespace backend.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-        
+
     }
 }
