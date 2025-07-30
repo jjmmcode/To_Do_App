@@ -1,8 +1,8 @@
-# To-Do App
+# 📝 To-Do App
 
 Una aplicación web minimalista construida con **REACT** para el frontend y **.NET (C#)** para el backend. Permite agregar, completar y eliminar tareas de forma sencilla y eficiente. Diseñada como una Progressive Web App (PWA) para funcionar como una aplicación nativa.
 
-## Tecnologías Utilizadas
+## 🚀 Tecnologías Utilizadas
 
 - Frontend: [React](https://reactjs.org/) + [Vite](https://vitejs.dev/)
 - Backend: [.NET 7](https://dotnet.microsoft.com/)
@@ -11,7 +11,7 @@ Una aplicación web minimalista construida con **REACT** para el frontend y **.N
 - Cliente HTTP: Axios
 - Herramientas: Postman, Visual Studio Code
 
-## Funcionalidades
+## ⚙️ Funcionalidades
 
 - Crear nuevas tareas con título y descripción.
 - Marcar tareas como completadas o desmarcarlas.
