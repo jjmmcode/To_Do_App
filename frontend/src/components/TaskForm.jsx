@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createTask } from "../api/tasks";
+import {toast} from 'react-toastify';
 
 export default function TaskForm({ onTaskAdded }) {
     const [title, setTitle] = useState('');
@@ -7,9 +8,28 @@ export default function TaskForm({ onTaskAdded }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await createTask({ title, description, isCompleted: false });
+        
+        if (title.trim().length === 0 || description.trim().length === 0) {
+            alert('Los campos no pueden quedar vacíos.');
+            return;
+        }
+
+        if (title.length > 50) {
+            alert('El título no debe superar los 50 caracteres.');
+            return;
+        }
+
+        if (description.length > 200) {
+            alert('La descripción no debe superar los 200 caracteres.');
+            return;
+        }
+
+        await createTask({ title, description, isCompleted: false});
+        toast.success('¡Tarea agregada con éxito!')
+
         setTitle('');
         setDescription('');
+
         onTaskAdded();
     };
 

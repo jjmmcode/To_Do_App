@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getTasks, deleteTask, updateTask } from "../api/tasks";
+import { toast } from "react-toastify";
 
 export default function TaskList({ reload }) {
     const [tasks, setTasks] = useState([]);
@@ -18,11 +19,13 @@ export default function TaskList({ reload }) {
             ...task,
             isCompleted: !task.isCompleted
         });
+        toast.success(`Tarea${task.IsCompleteded ? 'desmarcada' : 'completada'} exitosamente`);
         loadTasks();
     };
 
     const handleDelete = async (id) => {
         await deleteTask(id);
+        toast.info('Tarea eliminada correctamente.')
         loadTasks();
     };
 

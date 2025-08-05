@@ -36,6 +36,11 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<backend.Models.Task>> CreateTask(backend.Models.Task task)
         {
+            if (!ModelState.Isvalid) 
+            {
+                return BadRequest(ModelState);
+            }
+
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetTask), new { id = task.Id }, task);
