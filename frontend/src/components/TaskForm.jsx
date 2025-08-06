@@ -1,55 +1,63 @@
 import { useState } from "react";
 import { createTask } from "../api/tasks";
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export default function TaskForm({ onTaskAdded }) {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        if (title.trim().length === 0 || description.trim().length === 0) {
-            alert('Los campos no pueden quedar vacíos.');
-            return;
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        if (title.length > 50) {
-            alert('El título no debe superar los 50 caracteres.');
-            return;
-        }
+    if (title.trim().length === 0 || description.trim().length === 0) {
+      alert('Los campos no pueden quedar vacíos.');
+      return;
+    }
 
-        if (description.length > 200) {
-            alert('La descripción no debe superar los 200 caracteres.');
-            return;
-        }
+    if (title.length > 50) {
+      alert('El título no debe superar los 50 caracteres.');
+      return;
+    }
 
-        await createTask({ title, description, isCompleted: false});
-        toast.success('¡Tarea agregada con éxito!')
+    if (description.length > 200) {
+      alert('La descripción no debe superar los 200 caracteres.');
+      return;
+    }
 
-        setTitle('');
-        setDescription('');
+    await createTask({ title, description, isCompleted: false });
+    toast.success('¡Tarea agregada con éxito!');
+    setTitle('');
+    setDescription('');
+    onTaskAdded();
+  };
 
-        onTaskAdded();
-    };
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <h2 className="text-xl font-semibold text-center">Agregar Tarea</h2>
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <h2>Agregar Tarea</h2>
-            <input
-                type="text"
-                placeholder="Título"
-                value={title}
-                onChange={e => setTitle(e.target.value)}
-                required
-            />
-            <textarea
-                placeholder="Descripción"
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                required
-            />
-            <button type="submit">Agregar</button>
-        </form>
-    );
+      <input
+        type="text"
+        placeholder="Título"
+        value={title}
+        onChange={e => setTitle(e.target.value)}
+        required
+        className="w-full px-4 py-2 rounded bg-zinc-700 text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+
+      <textarea
+        placeholder="Descripción"
+        value={description}
+        onChange={e => setDescription(e.target.value)}
+        required
+        className="w-full px-4 py-2 rounded bg-zinc-700 text-white placeholder-zinc-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+
+      <button
+        type="submit"
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded transition"
+      >
+        Agregar
+      </button>
+    </form>
+  );
 }

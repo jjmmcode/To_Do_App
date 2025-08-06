@@ -6,15 +6,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 function App() {
-  const [reload, setReload] = useState(false);
-
-  const reloadTask = () => setReload(prev => !prev);
-
   return (
-    <div className="app-container">
-      <h1>To-Do App de Joel</h1>
-      <TaskForm onTaskAdded={reloadTask} />
-      <TaskList reload={reload} />
+    <div className="min-h-screen bg-zinc-900 text-white px-4 py-8">
+      <div className="max-w-2xl mx-auto space-y-6">
+        <header className="text-center">
+          <h1 className="text-4xl font-extrabold text-white">To-Do App</h1>
+          <p className="text-lg text-zinc-400">Organiza tus tareas diarias</p>
+        </header>
+
+        <section className="bg-zinc-800 rounded-xl p-6 shadow-lg">
+          <TaskForm />
+        </section>
+
+        <section className="bg-zinc-800 rounded-xl p-6 shadow-lg">
+          <TaskList />
+        </section>
+      </div>
+
       <ToastContainer />
     </div>
   );

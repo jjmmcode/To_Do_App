@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 namespace backend.Models
 {
 	public class Task
@@ -11,7 +12,7 @@ namespace backend.Models
 
 		[MaxLength(200, ErrorMessage = "La descripción no puede superar los 200 caracteres.")]
 		public string? Description { get; set; }
-		
+
 		public bool IsCompleted { get; set; } = false;
 		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 	}

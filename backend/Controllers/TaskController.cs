@@ -36,7 +36,7 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<backend.Models.Task>> CreateTask(backend.Models.Task task)
         {
-            if (!ModelState.Isvalid) 
+            if (!ModelState.IsValid) 
             {
                 return BadRequest(ModelState);
             }
