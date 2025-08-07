@@ -42,7 +42,7 @@ export default function TaskList({ reload }) {
       {tasks.map(task => (
         <div
           key={task.id}
-          className="flex justify-between items-start bg-zinc-700 p-4 rounded-lg shadow-sm"
+          className="flex justify-between items-start bg-zinc-200 dark:bg-zinc-700 p-4 rounded-lg shadow-sm transition-colors duration-300"
         >
           <div>
             <h3
