@@ -8,29 +8,40 @@ export default function TaskForm({ onTaskAdded }) {
   const [description, setDescription] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (title.trim().length === 0 || description.trim().length === 0) {
-      toast.error('Los campos no pueden quedar vacíos.');
-      return;
-    }
+  if (title.trim().length === 0 || description.trim().length === 0) {
+    toast.error('Los campos no pueden quedar vacíos.');
+    return;
+  }
 
-    if (title.length > 50) {
-      toast.error('El título no debe superar los 50 caracteres.');
-      return;
-    }
+  if (title.length > 50) {
+    toast.error('El título no debe superar los 50 caracteres.');
+    return;
+  }
 
-    if (description.length > 200) {
-      toast.error('La descripción no debe superar los 200 caracteres.');
-      return;
-    }
+  if (description.length > 200) {
+    toast.error('La descripción no debe superar los 200 caracteres.');
+    return;
+  }
 
-    await createTask({ title, description, isCompleted: false });
+  const task = { title, description, isCompleted: false };
+  console.log("📤 Enviando tarea al backend:", task); // ⬅️ Log clave
+
+  try {
+    const res = await createTask(task);
+    console.log("✅ Tarea creada:", res.data);
+
     toast.success('¡Tarea agregada con éxito!');
     setTitle('');
     setDescription('');
     onTaskAdded();
-  };
+  } catch (error) {
+    console.error("❌ Error al crear la tarea:", error); // ⬅️ Log de error
+    toast.error('No se pudo agregar la tarea. Verifica la consola.');
+  }
+};
+
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">

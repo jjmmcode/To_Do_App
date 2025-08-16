@@ -10,7 +10,7 @@ export default function TaskList({ reload }) {
 
   const loadTasks = async () => {
     const res = await getTasks();
-    setTasks(res.data);
+    setTasks(Array.isArray(res.data) ? res.data : []);
   };
 
   useEffect(() => {
