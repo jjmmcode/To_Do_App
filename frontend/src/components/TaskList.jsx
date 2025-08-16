@@ -42,35 +42,31 @@ export default function TaskList({ reload }) {
     <div className="space-y-4">
       <h2 className="text-xl font-semibold text-center">Lista de Tareas</h2>
 
-      {/* Filtros */}
-      <div className="flex justify-center gap-4 mb-4">
+      <div className="flex flex-col gap-2 items-center mb-4">
         <button
           onClick={() => setFilter("all")}
-          className={`px-4 py-1 rounded transition ${
-            filter === "all" 
-              ? "bg-blue-500 text-white" 
-              : "bg-zinc-300 dark:bg-zinc-600 text-zinc-800 dark:text-white"
-          }`}
+          className={`px-4 py-1 rounded transition ${filter === "all"
+            ? "bg-blue-500 text-white"
+            : "bg-zinc-300 dark:bg-zinc-600 text-zinc-800 dark:text-white"
+            }`}
         >
           Todas
         </button>
         <button
           onClick={() => setFilter("completed")}
-          className={`px-4 py-1 rounded transition ${
-            filter === "completed" 
-              ? "bg-green-500 text-white" 
-              : "bg-zinc-300 dark:bg-zinc-600 text-zinc-800 dark:text-white"
-          }`}
+          className={`px-4 py-1 rounded transition ${filter === "completed"
+            ? "bg-green-500 text-white"
+            : "bg-zinc-300 dark:bg-zinc-600 text-zinc-800 dark:text-white"
+            }`}
         >
           Completadas
         </button>
         <button
           onClick={() => setFilter("pending")}
-          className={`px-4 py-1 rounded transition ${
-            filter === "pending" 
-              ? "bg-yellow-500 text-white" 
-              : "bg-zinc-300 dark:bg-zinc-600 text-zinc-800 dark:text-white"
-          }`}
+          className={`px-4 py-1 rounded transition ${filter === "pending"
+            ? "bg-yellow-500 text-white"
+            : "bg-zinc-300 dark:bg-zinc-600 text-zinc-800 dark:text-white"
+            }`}
         >
           Pendientes
         </button>
@@ -83,21 +79,22 @@ export default function TaskList({ reload }) {
       {filteredTasks.map(task => (
         <div
           key={task.id}
-          className="flex justify-between items-start bg-zinc-100 dark:bg-zinc-700 p-4 rounded-lg shadow-sm transition-colors duration-300"
+          className="flex justify-between items-start bg-zinc-100 dark:bg-zinc-700 p-4 rounded-lg shadow-sm transition-colors duration-300 mb-4"
         >
           <div>
             <h3
               className={`text-lg font-bold ${task.isCompleted
                 ? 'line-through text-zinc-400'
                 : 'text-zinc-800 dark:text-white'
-              }`}
+                }`}
             >
               {task.title}
             </h3>
             <p className="text-sm text-zinc-600 dark:text-zinc-300">{task.description}</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">Creada el: {new Date(task.createdAt).toLocaleString()}</p>
           </div>
 
-          <div className="flex gap-2 mt-2 sm:mt-0 sm:flex-col sm:items-end">
+          <div className="flex flex-col gap-2 mt-2 sm:mt-0 sm:items-end">
             <button
               onClick={() => handleToggleComplete(task)}
               className="text-green-500 hover:text-green-400 font-semibold text-sm"
