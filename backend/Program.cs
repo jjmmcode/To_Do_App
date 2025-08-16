@@ -8,23 +8,23 @@ builder.WebHost.UseUrls($"http://*:{port}");
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
-        policy =>
-        {
-            policy.WithOrigins(
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy
+            .WithOrigins(
                 "http://localhost:5173",
-                "https://to-do-app.vercel.app"
+                "https://to-do-app.vercel.app",
+                "https://to-do-app-jet-one.vercel.app"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials();
-        });
+            .AllowCredentials(); 
+    });
 });
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=tasks.db"));
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -35,8 +35,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseHttpsRedirection();
+
 app.UseCors("AllowFrontend");
+
+app.UseHttpsRedirection(); 
 app.UseAuthorization();
 app.MapControllers();
 
