@@ -16,7 +16,8 @@ builder.Services.AddCors(options =>
                 "https://to-do-app.vercel.app"
             )
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
         });
 });
 
