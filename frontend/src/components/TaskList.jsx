@@ -6,6 +6,7 @@ import EditTaskModal from "./EditTaskModal";
 export default function TaskList({ reload }) {
   const [tasks, setTasks] = useState([]);
   const [editingTask, setEditingTask] = useState(null);
+  const [filter, setFilter] = useState("all");
 
   const loadTasks = async () => {
     const res = await getTasks();
@@ -31,44 +32,103 @@ export default function TaskList({ reload }) {
     loadTasks();
   };
 
+  const filteredTasks = tasks.filter(task => {
+    if (filter === "completed") return task.isCompleted;
+    if (filter === "pending") return !task.isCompleted;
+    return true;
+  });
+
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold text-center">Lista de Tareas</h2>
 
-      {tasks.length === 0 && (
-        <p className="text-center text-zinc-400">No hay tareas pendientes.</p>
+      {/* Filtros */}
+      <div className="flex justify-center gap-4 mb-4">
+        <button
+          onClick={() => setFilter("all")}
+          className={`px-4 py-1 rounded transition ${
+            filter === "all" 
+              ? "bg-blue-500 text-white" 
+              : "bg-zinc-300 dark:bg-zinc-600 text-zinc-800 dark:text-white"
+          }`}
+        >
+          Todas
+        </button>
+        <button
+          onClick={() => setFilter("completed")}
+          className={`px-4 py-1 rounded transition ${
+            filter === "completed" 
+              ? "bg-green-500 text-white" 
+              : "bg-zinc-300 dark:bg-zinc-600 text-zinc-800 dark:text-white"
+          }`}
+        >
+          Completadas
+        </button>
+        <button
+          onClick={() => setFilter("pending")}
+          className={`px-4 py-1 rounded transition ${
+            filter === "pending" 
+              ? "bg-yellow-500 text-white" 
+              : "bg-zinc-300 dark:bg-zinc-600 text-zinc-800 dark:text-white"
+          }`}
+        >
+          Pendientes
+        </button>
+      </div>
+
+      {filteredTasks.length === 0 && (
+        <p className="text-center text-zinc-400">No hay tareas para mostrar.</p>
       )}
 
-      {tasks.map(task => (
+      {filteredTasks.map(task => (
         <div
           key={task.id}
-          className="flex justify-between items-start bg-zinc-200 dark:bg-zinc-700 p-4 rounded-lg shadow-sm transition-colors duration-300"
+          className="flex justify-between items-start bg-zinc-100 dark:bg-zinc-700 p-4 rounded-lg shadow-sm transition-colors duration-300"
         >
           <div>
             <h3
-              className={`text-lg font-bold ${task.isCompleted ? 'line-through text-zinc-400' : 'text-white'}`}
+              className={`text-lg font-bold ${task.isCompleted
+                ? 'line-through text-zinc-400'
+                : 'text-zinc-800 dark:text-white'
+              }`}
             >
               {task.title}
             </h3>
-            <p className="text-sm text-zinc-300">{task.description}</p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-300">{task.description}</p>
           </div>
 
           <div className="flex gap-2 mt-2 sm:mt-0 sm:flex-col sm:items-end">
             <button
               onClick={() => handleToggleComplete(task)}
-              className="text-green-400 hover:text-green-300 text-sm"
+              className="text-green-500 hover:text-green-400 font-semibold text-sm"
             >
               {task.isCompleted ? 'Desmarcar' : 'Completar'}
             </button>
+
+            <button
+              onClick={() => setEditingTask(task)}
+              className="text-yellow-500 hover:text-yellow-400 text-sm"
+            >
+              Editar
+            </button>
+
             <button
               onClick={() => handleDelete(task.id)}
-              className="text-red-400 hover:text-red-300 text-sm"
+              className="text-red-500 hover:text-red-400 font-semibold text-sm"
             >
               Eliminar
             </button>
           </div>
         </div>
       ))}
+
+      {editingTask && (
+        <EditTaskModal
+          task={editingTask}
+          onClose={() => setEditingTask(null)}
+          onTaskUpdated={loadTasks}
+        />
+      )}
     </div>
   );
 }
