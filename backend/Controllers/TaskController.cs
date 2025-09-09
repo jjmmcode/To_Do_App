@@ -3,6 +3,8 @@ using backend.Data;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+
 
 namespace backend.Controllers
 {
@@ -22,31 +24,38 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<backend.Models.Task>>> GetTasks()
         {
-            return await _context.Tasks.ToListAsync();
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized("Usuario no autenticado");
+
+            int userId = int.Parse(userIdClaim);
+
+            var tasks = await _context.Tasks
+                .Where(t => t.UserId == userId)
+                .ToListAsync();
+
+            return Ok(tasks);
         }
 
-        // GET: api/task/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<backend.Models.Task>> GetTask(int id)
-        {
-            var task = await _context.Tasks.FindAsync(id);
-            if (task == null) return NotFound();
-            return task;
-        }
-
-        // POST: api/task
+        // POST: api/task/
         [HttpPost]
         public async Task<ActionResult<backend.Models.Task>> CreateTask(backend.Models.Task task)
         {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized("Usuario no autenticado");
+
+            task.UserId = int.Parse(userIdClaim);
+
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetTask), new { id = task.Id }, task);
+
+            return Ok(task);
         }
+
 
         // PUT: api/task/{id}
         [HttpPut("{id}")]

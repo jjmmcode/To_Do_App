@@ -1,16 +1,28 @@
 // src/utils/axiosInstance.js
-import axios from 'axios'
+import axios from "axios";
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api',
-})
+    baseURL: "http://localhost:5000/api", 
+    timeout: 10000,
+});
 
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");   
     if (token) {
-        config.headers.Authorization = `Bearer ${token}`
+        config.headers.Authorization = `Bearer ${token}`; 
     }
-    return config
-})
+    return config;
+});
 
-export default api
+api.interceptors.response.use(
+    (r) => r,
+    (err) => {
+        if (err.response?.status === 401) {
+            localStorage.removeItem("token");
+            window.location.href = "/"; 
+        }
+        return Promise.reject(err);
+    }
+);
+
+export default api;
