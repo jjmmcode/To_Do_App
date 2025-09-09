@@ -11,5 +11,6 @@ namespace backend.Data
         }
 
         public DbSet<backend.Models.Task> Tasks => Set<backend.Models.Task>();
+        public DbSet<backend.Models.User> Users => Set<backend.Models.User>();
     }
 }

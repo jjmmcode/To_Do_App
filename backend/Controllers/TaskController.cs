@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Data;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class TaskController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -36,7 +38,7 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<backend.Models.Task>> CreateTask(backend.Models.Task task)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
