@@ -18,12 +18,18 @@ builder.Services.AddCors(options =>
             {
                 if (string.IsNullOrEmpty(origin)) return false;
                 var host = new Uri(origin).Host;
-                return host == "localhost" || host.EndsWith(".vercel.app");
+
+                return
+                    host == "localhost" ||
+                    host.EndsWith(".vercel.app") ||
+                    host.EndsWith(".onrender.com");
             })
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
 });
+
+
 
 var jwtKey = builder.Configuration["Jwt:Key"];
 if (string.IsNullOrEmpty(jwtKey))
@@ -40,7 +46,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false; 
+    options.RequireHttpsMetadata = false;
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
