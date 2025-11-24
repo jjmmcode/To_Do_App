@@ -9,7 +9,7 @@ using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Backend.Controllers
+namespace backend.Controllers
 {
     [ApiController]
     [Route("api/auth")]

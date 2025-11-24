@@ -1,25 +1,28 @@
 #!/bin/bash
 
-echo "🚀 Creando estructura base del proyecto..."
+echo "🚀 Iniciando To-Do App en modo desarrollo..."
 
-# Crear backend
-echo "🟦 Generando backend en .NET..."
-dotnet new webapi -n backend
+# 1. Levantar backend .NET
+echo "🟦 Levantando backend (.NET)..."
 cd backend
-mkdir Models DTOs Data Services
-cd ..
+dotnet run &
+BACKEND_PID=$!
 
-# Crear frontend
-echo "⚛️ Generando frontend en React con Vite..."
-npm create vite@latest frontend -- --template react
-cd frontend
+sleep 2
 
-echo "📦 Instalando dependencias frontend..."
-npm install
-npm install axios react-router-dom vite-plugin-pwa
+# 2. Levantar frontend (Vite)
+echo "⚛️ Levantando frontend (Vite)..."
+cd ../frontend
+npm run dev &
+FRONTEND_PID=$!
 
-mkdir -p src/{components,pages,services,hooks,assets}
+echo ""
+echo "─────────────────────────────────────────────"
+echo " Backend:  http://localhost:5000"
+echo " Frontend: http://localhost:5173"
+echo "─────────────────────────────────────────────"
+echo ""
+echo "Presiona CTRL + C para detener ambos"
 
-cd ..
-
-echo "✅ Estructura generada correctamente"
+# Mantener vivo el script hasta CTRL+C
+wait $BACKEND_PID $FRONTEND_PID
